@@ -76,16 +76,16 @@ function register()
 	
 	if($password == $repeatpassword){
 		mysql_query("insert into user set username='".$username."',
-														fname='".$firstname."',
-														lname='".$lastname."',
+														first_name='".$firstname."',
+														last_name='".$lastname."',
 														password='".$password."',
 														auth='admin'");
 		
 		$_SESSION['user_session'] = $username;
-		header('Location: ../home/');
+		header('Location: index.php?view=login');
 	}
 	else{
-		header('Location: ../account/?view=register&message=Password does not match.');
+		header('Location: ../user/?view=register&message=Password does not match.');
 	}
 	
 }
