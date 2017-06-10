@@ -12,8 +12,8 @@ switch ($view) {
 		break;
 			
 	default :
-		$content 	= 'login.php';
-		$template	= '../include/template_login.php';
+		$content 	= 'home.php';
+		$template	= '../include/template.php';
 }
 
 require_once $template;
