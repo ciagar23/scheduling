@@ -6,19 +6,14 @@ $view = (isset($_GET['view']) && $_GET['view'] != '') ? $_GET['view'] : '';
 
 switch ($view) {
 	
-	case 'register' :
-		$content 	= 'register.php';
+	case 'add' :
+		$content 	= 'add.php';
 		$template	= '../include/template.php';
-		break;
-	
-	case 'changepassword' :
-		$content 	= 'changepassword.php';
-		$template	= '../include/template_login.php';
 		break;
 			
 	default :
-		$content 	= 'login.php';
-		$template	= '../include/template_login.php';
+		$content 	= 'add.php';
+		$template	= '../include/template.php';
 }
 
 require_once $template;

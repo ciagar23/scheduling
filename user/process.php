@@ -14,12 +14,8 @@ switch ($action) {
 		register();
 		break;
 	
-	case 'delete' :
-		delete();
-		break;
-	
-	case 'update' :
-		update();
+	case 'changepassword' :
+		changepassword();
 		break;
 		
 	case 'logout' :
@@ -34,16 +30,21 @@ function login()
 {
 	// if we found an error save the error message in this variable
 	
-	$userName = $_POST['username'];
+	$idnumber = $_POST['idnumber'];
 	$password = $_POST['password'];
 	
-	$query = mysql_query("select * from user where username = '".$userName."' and password = '".$password."'");
+	$query = mysql_query("select * from user where idnumber = '".$idnumber."' and password = '".$password."'");
 	
 	if (mysql_num_rows($query) != 0)
 	{
 
-		$_SESSION['user_session'] = $userName;
-		header('Location: ../home/');
+		$_SESSION['user_session'] = $idnumber;
+		if ($password == 'temppassword'){
+			header('Location: index.php?view=changepassword');
+		}
+		else{
+			header('Location: ../home/');
+		}
 
 			
 	}
@@ -68,25 +69,38 @@ function logout()
 
 function register()
 {
-	$username = $_POST['username'];
+	$idnumber = $_POST['idnumber'];
 	$firstname = $_POST['firstname'];
 	$lastname = $_POST['lastname'];
+	$auth = $_POST['auth'];
 	$password = $_POST['password'];
-	$repeatpassword = $_POST['repeatpassword'];
 	
-	if($password == $repeatpassword){
-		mysql_query("insert into user set username='".$username."',
-														first_name='".$firstname."',
-														last_name='".$lastname."',
-														password='".$password."',
-														auth='admin'");
+		mysql_query("insert into user set idnumber='$idnumber',
+														first_name='$firstname',
+														last_name='$lastname',
+														password='$password',
+														auth='$auth'");
 		
-		$_SESSION['user_session'] = $username;
-		header('Location: index.php?view=login');
+		header('Location: index.php?view=register&success=You have successfully registered a new user');
+	
+}
+
+function changepassword()
+{
+	$idnumber = $_POST['idnumber'];
+	$password = $_POST['password'];
+	$password2 = $_POST['password2'];
+
+
+	if ($password == $password2){
+		mysql_query("update user set	password='".$password."'
+										where idnumber = '".$idnumber."'");
+													
+		header('Location: ../home');
 	}
-	else{
-		header('Location: ../user/?view=register&message=Password does not match.');
-	}
+	else
+	{
+		header('Location: index.php?view=changepassword&error=Password not matched');}
 	
 }
 
